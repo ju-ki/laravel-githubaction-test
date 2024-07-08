@@ -23,4 +23,8 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(1 + 1 == 2);
     }
+    public function test_that_wrong_test(): void
+    {
+        $this->assertFalse(true);
+    }
 }
