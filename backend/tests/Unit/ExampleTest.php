@@ -23,4 +23,9 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(1 + 1 == 2);
     }
+
+    public function test_that_true_is_2_plus_2(): void
+    {
+        $this->assertTrue(2 + 2 == 4);
+    }
 }
