@@ -43,3 +43,20 @@ jobs:
       - name: Run tests
         working-directory: ./backend
         run: php artisan test
+
+  create-pull-request:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+            token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
+            commit-message: PR:Merge changes from feature/fix branch
+            branch: dev
+            title: 'PR: Merge changes from feature/fix branch'
+            body: |
+              This pull request is automatically created from the successful test of feature/fix branch.
