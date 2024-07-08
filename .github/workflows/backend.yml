@@ -61,7 +61,8 @@ jobs:
           if [[ $PR_COUNT == 0 ]]; then
             gh pr create \
               -B master \
-              -t "${{ github.event.head_commit.message }}" \
+              -t "PR: Merge changes from feature/fix branch" \
+              -b "This pull request is automatically created from the successful test of feature/fix branch." \
               -a "${{ github.actor }}"
           else
             echo "PR already exists."
