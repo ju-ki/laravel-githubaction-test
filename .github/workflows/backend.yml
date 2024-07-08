@@ -62,8 +62,9 @@ jobs:
             gh pr create \
               -B master \
               -t "${{ github.event.head_commit.message }}" \
-              -a "${{ github.actor }}"  \
+              -a "${{ github.actor }}"
           else
             echo "PR already exists."
           fi
+
 
