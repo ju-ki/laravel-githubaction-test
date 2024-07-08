@@ -53,7 +53,7 @@ jobs:
         with:
           token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
       - name: Set Git user
-        run: |
+        run:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
