@@ -49,22 +49,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
-          token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
+          fetch-depth: 0  # Make sure to fetch all history so we can push tags if needed
+
       - name: Set Git user
-        run:
+        run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-            token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
-            commit-message: PR:Merge changes from feature/fix branch
-            base: master
-            branch: ${{ github.head_ref }}
-            title: 'PR: Merge changes from feature/fix branch'
-            body: |
-              This pull request is automatically created from the successful test of feature/fix branch.
+          token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
+          commit-message: PR: Merge changes from feature/fix branch
+          base: master
+          branch: ${{ github.head_ref }}
+          title: 'PR: Merge changes from feature/fix branch'
+          body: |
+            This pull request is automatically created from the successful test of feature/fix branch.
+
