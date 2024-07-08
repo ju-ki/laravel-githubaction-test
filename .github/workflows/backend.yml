@@ -56,7 +56,7 @@ jobs:
         with:
             token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
             commit-message: PR:Merge changes from feature/fix branch
-            branch: dev
+            branch: master
             title: 'PR: Merge changes from feature/fix branch'
             body: |
               This pull request is automatically created from the successful test of feature/fix branch.
