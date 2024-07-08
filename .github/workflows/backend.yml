@@ -50,6 +50,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+	        token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
       - name: Set Git user
         run: |
           git config --global user.name 'github-actions[bot]'
