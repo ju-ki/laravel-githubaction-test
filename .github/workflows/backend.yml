@@ -45,6 +45,7 @@ jobs:
         run: php artisan test
 
   create-pull-request:
+    if: github.event_name == 'push'
     needs: test
     runs-on: ubuntu-latest
     steps:
