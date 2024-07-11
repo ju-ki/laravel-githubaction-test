@@ -42,11 +42,14 @@ jobs:
         working-directory: ./backend
         run: |
           mkdir -p test-logs
-          php artisan test
+          php artisan test --log-junit test-logs/phpunit.xml
 
-      - name: view laravel.log
-        run: cat storage/logs/test.log
-        if: ${{ failure() }}
+      - name: Upload test logs if tests fail
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-logs
+          path: test-logs
 
   create-pull-request:
     if: github.event_name == 'push'
