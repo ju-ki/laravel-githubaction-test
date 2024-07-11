@@ -41,15 +41,7 @@ jobs:
       - name: Run tests
         working-directory: ./backend
         run: |
-          mkdir -p test-logs
           php artisan test
-
-      - name: Upload test logs if tests fail
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-logs
-          path: ./backend/test-logs
 
   create-pull-request:
     if: github.event_name == 'push'
