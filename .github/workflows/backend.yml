@@ -58,4 +58,5 @@ jobs:
           gh pr create \
             -B dev \
             -t "${{ github.event.head_commit.message }}" \
-            -a "${{ github.actor }}"
+            -a "${{ github.actor }}" \
+            -b "This PR is automatically created By Github Actions"
