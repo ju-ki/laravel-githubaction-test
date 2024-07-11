@@ -45,7 +45,7 @@ jobs:
           php artisan test
 
       - name: view laravel.log
-        run: cat storage/logs/laravel.log
+        run: cat storage/logs/test.log
         if: ${{ failure() }}
 
   create-pull-request:
