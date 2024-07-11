@@ -54,9 +54,15 @@ jobs:
       - name: Check and Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
-          gh pr create \
-            -B dev \
-            -t "${{ github.event.head_commit.message }}" \
-            -a "${{ github.actor }}" \
-            -b "This PR is automatically created By Github Actions"
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if [ "$CURRENT_BRANCH" != "dev" ]; then
+            gh pr create \
+              --base dev \
+              --head $CURRENT_BRANCH \
+              --title "$COMMIT_MESSAGE" \
+              --body "This PR is automatically created by GitHub Actions"
+          else
+            echo "No changes to create a PR for."
+          fi
