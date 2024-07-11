@@ -55,8 +55,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
             token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
-            commit-message: PR:Merge changes from feature/fix branch
-            branch: master
+            commit-message: ${{ github.event.head_commit.message }}
+            branch: dev
             title: 'PR: Merge changes from feature/fix branch'
             body: |
               This pull request is automatically created from the successful test of feature/fix branch.
