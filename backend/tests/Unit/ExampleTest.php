@@ -28,4 +28,19 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(2 + 2 == 4);
     }
+
+    /**
+     * @test
+     *
+     * @group feature2
+     */
+    public function test_that_true_is_3_plus_3(): void
+    {
+        $this->assertTrue(3 + 3 == 6);
+    }
+
+    public function test_that_true_is_3_plus_3_failed(): void
+    {
+        $this->assertTrue(3 + 3 == 8);
+    }
 }
