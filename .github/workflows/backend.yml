@@ -51,12 +51,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-            token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
-            commit-message: ${{ github.event.head_commit.message }}
-            branch: dev
-            title: 'PR: Merge changes from feature/fix branch'
-            body: |
-              This pull request is automatically created from the successful test of feature/fix branch.
+      - name: Check and Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
+        run: |
+          PR_COUNT=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '. | length')
+          if [[ $PR_COUNT == 0 ]]; then
+            gh pr create \
+              -B dev \
+              -t "${{ github.event.head_commit.message }}" \
+              -a "${{ github.actor }}"
+          else
+            echo "PR already exists."
+          fi
