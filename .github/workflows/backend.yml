@@ -41,15 +41,7 @@ jobs:
       - name: Run tests
         working-directory: ./backend
         run: |
-          mkdir -p test-logs
-          php artisan test --log-junit test-logs/phpunit.xml || echo "Tests failed"
-
-      - name: Upload test logs if tests fail
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-logs
-          path: test-logs
+          php artisan test
 
   create-pull-request:
     if: github.event_name == 'push'
@@ -59,12 +51,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-            token: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
-            commit-message: PR:Merge changes from feature/fix branch
-            branch: master
-            title: 'PR: Merge changes from feature/fix branch'
-            body: |
-              This pull request is automatically created from the successful test of feature/fix branch.
+      - name: Check and Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.LARAVEL_GITHUB_ACTION_TEST }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if [ "$CURRENT_BRANCH" != "dev" ]; then
+            gh pr create \
+              --base dev \
+              --head $CURRENT_BRANCH \
+              --title "$COMMIT_MESSAGE" \
+              --body "This PR is automatically created by GitHub Actions"
+          else
+            echo "No changes to create a PR for."
+          fi
